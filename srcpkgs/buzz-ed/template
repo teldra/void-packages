@@ -1,0 +1,22 @@
+# Template file for 'buzz-ed'
+pkgname=buzz-ed
+version=1.1.11
+revision=1
+build_style=cargo
+makedepends="libressl-devel pkg-config"
+short_desc="Simple application for notifying about unseen e-mail"
+maintainer="teldra <teldra@rotce.de>"
+license="MIT, Apache-2.0"
+homepage="https://github.com/teldra/buzz-ed"
+distfiles="https://github.com/teldra/buzz-ed/archive/v${version}.tar.gz"
+checksum=38fdca97665fe4155440314543f188cb512fc353593237af96051ab4a51410c6
+
+do_build() {
+	sleep 1
+}
+
+post_install() {
+	vlicense LICENSE-MIT
+	vlicense LICENSE-APACHE
+}
+
