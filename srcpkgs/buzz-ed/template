@@ -1,6 +1,6 @@
 # Template file for 'buzz-ed'
 pkgname=buzz-ed
-version=1.1.12
+version=1.1.13
 revision=1
 build_style=cargo
 makedepends="libressl-devel pkg-config"
@@ -9,7 +9,7 @@ maintainer="teldra <teldra@rotce.de>"
 license="MIT, Apache-2.0"
 homepage="https://github.com/teldra/buzz-ed"
 distfiles="https://github.com/teldra/buzz-ed/archive/v${version}.tar.gz"
-checksum=78270902a230ea8a3e19dd287948f8fa3e214b80857140cf65fd51ab6bff1a50
+checksum=7938fed808982787b75cdb2bcb4d2c7bcf35b35870a2634df579c7dc9767a5a0
 
 do_build() {
 	sleep 1
