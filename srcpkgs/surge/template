@@ -1,0 +1,41 @@
+# Template file for 'surge'
+pkgname=surge
+version=1.9.0
+revision=1
+archs="x86_64"
+wrksrc=surge
+build_style=cmake
+make_build_target="Surge-LV2-Packaged"
+hostmakedepends="pkg-config"
+makedepends="cairo-devel xcb-util-devel xcb-util-cursor-devel xcb-util-keysyms-devel libxkbcommon-devel"
+short_desc="Digital synthesizer - LV2"
+maintainer="teldra <teldra@rotce.de>"
+license="GPL-3.0-or-later"
+homepage="https://surge-synthesizer.github.io/"
+distfiles="https://github.com/surge-synthesizer/releases/releases/download/${version}/SurgeSrc_${version}.tgz"
+checksum=93bc7eb3ce0ea5acc04651d65c43f5682e7bfa8dee11db80cd80dec81c254e01
+nocross="buildsystem does not allow that"
+make_check=extended # No target to "ninja test".
+
+post_extract() {
+	vsed -e 's/@SURGE_BUILD_DATE@/0/g' \
+		-e 's/@SURGE_BUILD_TIME@/0/g' \
+		-e 's/@SURGE_BUILD_HASH@/0/g' \
+		-e 's/@SURGE_BUILD_FQDN@/None/g' \
+		-e 's/@SURGE_RELEASE_VERSION@/0/g' \
+		-e 's/@SURGE_RELEASE_NUMBER@/0/g' \
+		-e "s/@SURGE_BUILD_ARCH@/${CARCH}/g" \
+		-e "s/@SURGE_FULL_VERSION@/${pkgver}/g" \
+		-i src/common/version.cpp.in
+}
+
+do_install() {
+	vmkdir usr/share/surge 755
+	vcopy resources/data/* usr/share/surge
+
+	vmkdir usr/lib/lv2 755
+	vcopy "build/surge_products/Surge.lv2" usr/lib/lv2/
+
+	vdoc AUTHORS
+	vdoc README.md
+}
