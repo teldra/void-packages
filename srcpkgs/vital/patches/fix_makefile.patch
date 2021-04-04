@@ -1,0 +1,83 @@
+--- Makefile.orig	2021-02-25 12:19:01.022920356 +0100
++++ Makefile	2021-02-25 23:17:00.262921243 +0100
+@@ -1,6 +1,5 @@
+-ifndef PREFIX
+-	PREFIX=/usr/local
+-endif
++PREFIX 	?= /usr
++DESTDIR	?=
+ 
+ ifndef CONFIG
+ 	CONFIG=Release
+@@ -10,6 +9,7 @@
+ 	LIBDIR=$(PREFIX)/lib
+ endif
+ 
++
+ BUILD_DATE="$(shell date +'%Y %m %d %H %M')"
+ 
+ PAID := 1
+@@ -20,16 +20,16 @@
+ MACHINE := $(shell sh -c 'uname -m 2> /dev/null || echo not')
+ ifneq (,$(findstring aarch,$(MACHINE)))
+ 	SIMDFLAGS := -march=armv8-a -mtune=cortex-a53
+-  GLFLAGS := -DOPENGL_ES=1
++  GLFLAGS := -DOPENGL_ES=1 -DNO_AUTH=1
+ else
+ ifneq (,$(findstring arm,$(MACHINE)))
+ 	SIMDFLAGS := -march=armv8-a -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
+-  GLFLAGS := -DOPENGL_ES=1
++  GLFLAGS := -DOPENGL_ES=1 -DNO_AUTH=1
+ else
+ ifneq (,$(findstring ppc,$(MACHINE)))
+ 	SIMDFLAGS :=
+ else
+-	SIMDFLAGS := -msse2
++	SIMDFLAGS := -msse2 -DNO_AUTH=1
+ endif
+ endif
+ endif
+@@ -37,24 +37,24 @@
+ PROGRAM = vial
+ LIB_PROGRAM = Vial
+ LIB_PROGRAM_FX = VialFX
+-BIN = $(PREFIX)/bin
++BIN = $(DESTDIR)$(PREFIX)/bin
+ BINFILE = $(BIN)/$(PROGRAM)
+-LV2 = $(LIBDIR)/lv2/$(LIB_PROGRAM).lv2
+-EFFECTS_LV2 = $(LIBDIR)/lv2/$(LIB_PROGRAM_FX).lv2
+-VSTDIR = $(LIBDIR)/vst
++LV2 = $(DESTDIR)$(LIBDIR)/lv2/$(LIB_PROGRAM).lv2
++EFFECTS_LV2 = $(DESTDIR)$(LIBDIR)/lv2/$(LIB_PROGRAM_FX).lv2
++VSTDIR = $(DESTDIR)$(LIBDIR)/vst
+ VST = $(VSTDIR)/$(LIB_PROGRAM).so
+-VST3DIR = $(LIBDIR)/vst3
++VST3DIR = $(DESTDIR)$(LIBDIR)/vst3
+ VST3 = $(VST3DIR)/$(LIB_PROGRAM).vst3
+ VST3SUBDIR = Contents/x86_64-linux
+ EFFECTS_VST = $(VSTDIR)/$(LIB_PROGRAM_FX).so
+ EFFECTS_VST3 = $(VST3DIR)/$(LIB_PROGRAM_FX).vst3
+-SYSDATA = $(PREFIX)/share/$(PROGRAM)
+-MAN = $(PREFIX)/share/man/man1/
+-CHANGES = $(PREFIX)/share/doc/$(PROGRAM)/
+-DESKTOP = $(PREFIX)/share/applications/
++SYSDATA = $(DESTDIR)$(PREFIX)/share/$(PROGRAM)
++MAN = $(DESTDIR)$(PREFIX)/share/man/man1/
++CHANGES = $(DESTDIR)$(PREFIX)/share/doc/$(PROGRAM)/
++DESKTOP = $(DESTDIR)$(PREFIX)/share/applications/
+ ZIP_FOLDER = $(LIB_PROGRAM)Binaries
+ 
+-ICONS      = $(PREFIX)/share/icons/hicolor/
++ICONS      = $(DESTDIR)$(PREFIX)/share/icons/hicolor/
+ ICON16     = images/vital_icon_16.png
+ ICON22     = images/vital_icon_22.png
+ ICON24     = images/vital_icon_24.png
+@@ -63,7 +63,7 @@
+ ICON64     = images/vital_icon_64.png
+ ICON128    = images/vital_icon_128.png
+ ICON256    = images/vital_icon_256.png
+-XPMDEST    = $(PREFIX)/share/pixmaps
++XPMDEST    = $(DESTDIR)$(PREFIX)/share/pixmaps
+ ICONXPM    = images/vital.xpm
+ 
+ ICONDEST16 = $(ICONS)/16x16/apps

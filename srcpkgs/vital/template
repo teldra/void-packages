@@ -1,0 +1,25 @@
+# Template file for 'vital'
+pkgname=vital
+version=0.1
+revision=1
+#archs="i686 x86_64"
+wrksrc=vital-main
+#create_wrksrc=yes
+build_style=gnu-makefile
+#configure_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="pkg-config"
+makedepends="alsa-lib-devel freetype-devel libcurl-devel glib-devel libglvnd-devel
+ jack-devel libXinerama-devel libXcursor-devel libsecret-devel"
+depends=""
+short_desc="Spectral warping wavetable synthesizer"
+maintainer="teldra <teldra@rotce.de>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/mtytel/vital"
+distfiles="https://github.com/taylordotfish/vital/archive/main.zip"
+checksum=bdf61a5fdff9c06a896577865e833d814892830b39240d8134b7da7582e454af
+
+post_install() {
+	rm -rf ${DESTDIR}/usr/lib64
+}
